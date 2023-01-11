@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main">
+        <div id="SliderValue"></div>
+        <input type="range" class="slider" value="0" min="0" max="28">
+    </div>
+
+    <script>
+        const slider = document.querySelector("input[type='range']")
+        const SliderValue = document.getElementById("SliderValue")
+        const thumbWidth = 32
+
+        function getOffset(slider) {
+            return (slider.clientWidth - thumbWidth) / parseInt(slider.max) - parseInt(slider.min)
+        }
+
+        function getPx(slider) {
+            const offset = getOffset(slider)
+            return ((slider.valueAsNumber - parseInt(slider.min)) * offset) - (SliderValue.clientWidth / 2) + (thumbWidth / 2)
+        }
+
+        SliderValue.innerHTML = parseInt(slider.value) + 1
+        SliderValue.style.left = getPx(slider) + "px"
+
+        slider.oninput = function() {
+            const ratio = (this.value - this.min) / (this.max - this.min)
+            SliderValue.innerHTML = parseInt(this.value) + 1
+            SliderValue.style.left = getPx(this) + "px"
+        }
+    </script>
+</body>
+</html>
